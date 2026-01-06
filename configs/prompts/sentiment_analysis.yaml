@@ -1,0 +1,81 @@
+name: sentiment_analysis
+description: 客户反馈情感分析模板
+
+template: |
+  分析以下客户反馈的情感倾向和关键信息：
+
+  客户姓名: {customer_name}
+  反馈内容: {feedback_text}
+  反馈时间: {feedback_date}
+
+  请仔细分析并返回JSON格式结果。
+
+system_prompt: |
+  你是一个专业的客户反馈分析专家，擅长：
+  1. 准确识别客户情感（积极、中性、消极）
+  2. 提取关键问题和需求
+  3. 评估问题的紧急程度
+
+  请客观、专业地分析每一条反馈。
+
+variables:
+  - customer_name
+  - feedback_text
+  - feedback_date
+
+output_format: |
+  {
+    "sentiment": "positive/neutral/negative",
+    "sentiment_score": 0.0-1.0,
+    "key_issues": ["问题1", "问题2"],
+    "customer_needs": ["需求1", "需求2"],
+    "urgency": "high/medium/low",
+    "action_required": true/false,
+    "summary": "简短总结（50字以内）"
+  }
+
+few_shot_examples:
+  - input:
+      customer_name: "张三"
+      feedback_text: "产品质量非常好，物流也很快，非常满意！会推荐给朋友。"
+      feedback_date: "2024-01-15"
+    output: |
+      {
+        "sentiment": "positive",
+        "sentiment_score": 0.95,
+        "key_issues": [],
+        "customer_needs": ["高质量产品", "快速物流"],
+        "urgency": "low",
+        "action_required": false,
+        "summary": "客户对产品质量和物流速度表示高度满意，愿意推荐"
+      }
+
+  - input:
+      customer_name: "李四"
+      feedback_text: "收到货发现包装破损，里面的产品也有划痕，要求退货！"
+      feedback_date: "2024-01-16"
+    output: |
+      {
+        "sentiment": "negative",
+        "sentiment_score": 0.15,
+        "key_issues": ["包装破损", "产品有划痕"],
+        "customer_needs": ["完好的产品", "良好的包装"],
+        "urgency": "high",
+        "action_required": true,
+        "summary": "产品包装和质量问题导致客户强烈不满，需立即处理退货"
+      }
+
+  - input:
+      customer_name: "王五"
+      feedback_text: "产品还行，没什么特别的。价格有点贵。"
+      feedback_date: "2024-01-17"
+    output: |
+      {
+        "sentiment": "neutral",
+        "sentiment_score": 0.5,
+        "key_issues": ["价格偏高"],
+        "customer_needs": ["性价比"],
+        "urgency": "low",
+        "action_required": false,
+        "summary": "客户对产品评价一般，认为价格偏高"
+      }
