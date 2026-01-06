@@ -1,0 +1,47 @@
+task:
+  name: "客户反馈情感分析"
+  description: "分析客户反馈的情感倾向"
+
+input:
+  file: "test_data/customer_feedback.xlsx"
+  encoding: "utf-8"
+
+processing:
+  mode: "row"
+  batch_size: 10
+
+llm:
+  provider: "openai"
+  model: "gpt-3.5-turbo"
+  temperature: 0.3
+  max_tokens: 500
+  api_key: "${OPENAI_API_KEY}"
+
+  prompt_template: |
+    分析以下客户反馈的情感倾向：
+
+    客户姓名: {customer_name}
+    反馈内容: {feedback_text}
+    反馈时间: {feedback_date}
+
+    请返回JSON格式结果：
+    {{
+      "sentiment": "positive/neutral/negative",
+      "key_issues": ["问题1", "问题2"],
+      "urgency": "high/medium/low"
+    }}
+
+  system_prompt: "你是一个专业的客户反馈分析专家。"
+
+  output_format: "json"
+
+output:
+  file: "output/feedback_analysis.xlsx"
+  format: "xlsx"
+  include_original: true
+  include_metadata: true
+
+retry:
+  enabled: true
+  max_attempts: 3
+  backoff_factor: 2.0
