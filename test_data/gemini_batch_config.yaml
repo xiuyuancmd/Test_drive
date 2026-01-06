@@ -1,0 +1,46 @@
+task:
+  name: "Gemini Flash 批量测试"
+  description: "使用批量模式测试Gemini Flash"
+
+input:
+  file: "test_data/customer_feedback.xlsx"
+  encoding: "utf-8"
+
+processing:
+  mode: "batch"
+  batch_size: 3
+
+llm:
+  provider: "gemini"
+  model: "gemini-1.5-flash"
+  temperature: 0.3
+  max_tokens: 500
+  api_key: "${GEMINI_API_KEY}"
+
+  prompt_template: |
+    分析以下客户反馈的情感倾向：
+
+    客户姓名: {customer_name}
+    反馈内容: {feedback_text}
+
+    请用JSON格式返回：
+    {{
+      "sentiment": "positive/neutral/negative",
+      "score": 0-10,
+      "summary": "简短总结"
+    }}
+
+  system_prompt: "你是客户反馈分析专家，请客观公正地分析。"
+
+  output_format: "json"
+
+output:
+  file: "output/gemini_batch_result.xlsx"
+  format: "xlsx"
+  include_original: true
+  include_metadata: true
+
+retry:
+  enabled: true
+  max_attempts: 3
+  backoff_factor: 2.0

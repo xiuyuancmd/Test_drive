@@ -1,0 +1,38 @@
+task:
+  name: "Gemini Flash 测试"
+  description: "使用Google Gemini 1.5 Flash进行文本处理测试"
+
+input:
+  file: "test_data/simple_test.xlsx"
+  encoding: "utf-8"
+
+processing:
+  mode: "row"
+  batch_size: 10
+
+llm:
+  provider: "gemini"
+  model: "gemini-1.5-flash"
+  temperature: 0.7
+  max_tokens: 1000
+  api_key: "${GEMINI_API_KEY}"
+
+  prompt_template: |
+    请将以下文本翻译成英文：
+
+    文本: {text}
+
+    只返回翻译结果，不要包含其他解释。
+
+  system_prompt: "你是一个专业的翻译助手。"
+
+output:
+  file: "output/gemini_test_result.xlsx"
+  format: "xlsx"
+  include_original: true
+  include_metadata: true
+
+retry:
+  enabled: true
+  max_attempts: 3
+  backoff_factor: 2.0

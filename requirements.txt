@@ -18,6 +18,7 @@ PyPDF2>=3.0.0            # PDF metadata
 openai>=1.0.0            # OpenAI API
 anthropic>=0.18.0        # Claude API
 tiktoken>=0.5.0          # Token counting for OpenAI
+google-generativeai>=0.3.0  # Google Gemini API
 
 # Optional LLM providers (uncomment if needed)
 # dashscope>=1.14.0      # Alibaba Qwen

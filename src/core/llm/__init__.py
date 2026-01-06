@@ -10,6 +10,7 @@ from .base import (
     LLMProviderFactory
 )
 from .openai_provider import OpenAIProvider
+from .gemini_provider import GeminiProvider
 from .prompt_template import PromptTemplate, FewShotExample, PromptTemplateLibrary
 
 __all__ = [
@@ -19,6 +20,7 @@ __all__ = [
     'LLMResponse',
     'LLMProviderFactory',
     'OpenAIProvider',
+    'GeminiProvider',
     'PromptTemplate',
     'FewShotExample',
     'PromptTemplateLibrary',
