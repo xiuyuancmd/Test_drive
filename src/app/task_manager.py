@@ -103,10 +103,21 @@ class TaskManager:
 
         # 解析参数
         parse_kwargs = {}
-        if input_config.sheet:
-            parse_kwargs['sheet_name'] = input_config.sheet
-        if input_config.encoding:
-            parse_kwargs['encoding'] = input_config.encoding
+
+        # 获取文件扩展名
+        file_ext = os.path.splitext(input_config.file)[1].lower()
+
+        # Excel特定参数
+        if file_ext in ['.xlsx', '.xls']:
+            if input_config.sheet:
+                parse_kwargs['sheet_name'] = input_config.sheet
+
+        # CSV/TXT特定参数
+        if file_ext in ['.csv', '.txt']:
+            if input_config.encoding:
+                parse_kwargs['encoding'] = input_config.encoding
+
+        # 通用参数
         if input_config.skip_rows:
             parse_kwargs['skip_rows'] = input_config.skip_rows
 
